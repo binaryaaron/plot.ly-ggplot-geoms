@@ -1,12 +1,4 @@
----
-output:
-  html_document:
-    fig_height: 2
-    fig_width: 4
-    highlight: zenburn
-    smart: no
-    toc: yes
----
+
 
 
 
@@ -385,7 +377,8 @@ py$ggplotly(p + geom_jitter())
 py$ggplotly(p + geom_point(position = position_jitter()))
 ```
 
-<img src="figure/minimal-jitter.png" title="plot of chunk jitter" alt="plot of chunk jitter" style="display: block; margin: auto;" />
+<img src="figure/minimal-jitter.png" title="plot of chunk jitter" alt="plot of chunk jitter" style="display: block; margin: auto;" /><iframe height="600" id="igraph" scrolling="no" seamless="seamless"
+				src="https://plot.ly/~xysmas/126" width="600"></iframe>
 
 geom_jitter fails, but position jitter passed to geompoint seems to work fine. 
 
@@ -393,11 +386,21 @@ geom_jitter fails, but position jitter passed to geompoint seems to work fine.
 (potentially the most useless plot ever, but just as an example...)
 
 ```r
-p + geom_line()
-py$ggplotly(p + geom_line())
+p <- p + geom_line()
+p
 ```
 
-<img src="figure/minimal-line.png" title="plot of chunk line" alt="plot of chunk line" style="display: block; margin: auto;" />
+<img src="figure/minimal-line.png" title="plot of chunk line" alt="plot of chunk line" style="display: block; margin: auto;" /><iframe height="600" id="igraph" scrolling="no" seamless="seamless"
+				src="https://plot.ly/~xysmas/126" width="600"></iframe>
+
+
+
+```r
+py$ggplotly(p)
+```
+
+<iframe height="600" id="igraph" scrolling="no" seamless="seamless"
+				src="https://plot.ly/~xysmas/127" width="600"></iframe>
 
 yes, funny that abline and the other line geoms do not work.
 
@@ -437,6 +440,9 @@ positions <- data.frame(id = rep(ids, each = 4), x = c(2, 1, 1.1, 2.2, 1, 0,
 test <- ggplot(values) + geom_map(aes(map_id = id), map = positions) + expand_limits(positions)
 ```
 
+<iframe height="600" id="igraph" scrolling="no" seamless="seamless"
+				src="https://plot.ly/~xysmas/127" width="600"></iframe>
+
 
 
 ```r
@@ -464,6 +470,9 @@ py$ggplotly(ggplot(crimes, aes(map_id = state)) + geom_map(aes(fill = Murder),
 ## Error: object 'state' not found
 ```
 
+<iframe height="600" id="igraph" scrolling="no" seamless="seamless"
+				src="https://plot.ly/~xysmas/127" width="600"></iframe>
+
 no maps.
 
 
@@ -480,7 +489,8 @@ c + geom_path(arrow = arrow())
 py$ggplotly(c + geom_path(arrow = arrow()))
 ```
 
-<img src="figure/minimal-paths.png" title="plot of chunk paths" alt="plot of chunk paths" style="display: block; margin: auto;" />
+<img src="figure/minimal-paths.png" title="plot of chunk paths" alt="plot of chunk paths" style="display: block; margin: auto;" /><iframe height="600" id="igraph" scrolling="no" seamless="seamless"
+				src="https://plot.ly/~xysmas/128" width="600"></iframe>
 
 success!
 
@@ -513,7 +523,8 @@ datapoly <- merge(values, positions, by = c("id"))
 py$ggplotly(p)
 ```
 
-<img src="figure/minimal-poly.png" title="plot of chunk poly" alt="plot of chunk poly" style="display: block; margin: auto;" />
+<img src="figure/minimal-poly.png" title="plot of chunk poly" alt="plot of chunk poly" style="display: block; margin: auto;" /><iframe height="600" id="igraph" scrolling="no" seamless="seamless"
+				src="https://plot.ly/~xysmas/129" width="600"></iframe>
 
 
 Wrong, it works.
@@ -548,7 +559,8 @@ py$ggplotly(m)
 ## Error: conversion not implemented for geom_quantile (basic geom_quantile)
 ```
 
-<img src="figure/minimal-quant.png" title="plot of chunk quant" alt="plot of chunk quant" style="display: block; margin: auto;" />
+<img src="figure/minimal-quant.png" title="plot of chunk quant" alt="plot of chunk quant" style="display: block; margin: auto;" /><iframe height="600" id="igraph" scrolling="no" seamless="seamless"
+				src="https://plot.ly/~xysmas/129" width="600"></iframe>
 
 no. 
 
@@ -574,7 +586,8 @@ py$ggplotly(raster)
 ## Error: conversion not implemented for geom_raster (basic geom_raster)
 ```
 
-<img src="figure/minimal-unnamed-chunk-7.png" title="plot of chunk unnamed-chunk-7" alt="plot of chunk unnamed-chunk-7" style="display: block; margin: auto;" />
+<img src="figure/minimal-unnamed-chunk-8.png" title="plot of chunk unnamed-chunk-8" alt="plot of chunk unnamed-chunk-8" style="display: block; margin: auto;" /><iframe height="600" id="igraph" scrolling="no" seamless="seamless"
+				src="https://plot.ly/~xysmas/129" width="600"></iframe>
 
 no. 
 
@@ -592,7 +605,8 @@ py$ggplotly(p)
 ## Error: conversion not implemented for geom_rect (basic geom_rect)
 ```
 
-<img src="figure/minimal-rect.png" title="plot of chunk rect" alt="plot of chunk rect" style="display: block; margin: auto;" />
+<img src="figure/minimal-rect.png" title="plot of chunk rect" alt="plot of chunk rect" style="display: block; margin: auto;" /><iframe height="600" id="igraph" scrolling="no" seamless="seamless"
+				src="https://plot.ly/~xysmas/129" width="600"></iframe>
 
 
 No. 
@@ -621,6 +635,9 @@ py$ggplotly(m)
 ## Error: gg must be a ggplot
 ```
 
+<iframe height="600" id="igraph" scrolling="no" seamless="seamless"
+				src="https://plot.ly/~xysmas/129" width="600"></iframe>
+
 
 Points work, stat summary doesn't. 
 
@@ -638,7 +655,8 @@ py$ggplotly(p)
 ## Error: conversion not implemented for geom_rug (basic geom_rug)
 ```
 
-<img src="figure/minimal-rug.png" title="plot of chunk rug" alt="plot of chunk rug" style="display: block; margin: auto;" />
+<img src="figure/minimal-rug.png" title="plot of chunk rug" alt="plot of chunk rug" style="display: block; margin: auto;" /><iframe height="600" id="igraph" scrolling="no" seamless="seamless"
+				src="https://plot.ly/~xysmas/129" width="600"></iframe>
 
 
 No.
@@ -654,7 +672,8 @@ p <- ggplot(seals, aes(x = long, y = lat))
 py$ggplotly(p)
 ```
 
-<img src="figure/minimal-seg.png" title="plot of chunk seg" alt="plot of chunk seg" style="display: block; margin: auto;" />
+<img src="figure/minimal-seg.png" title="plot of chunk seg" alt="plot of chunk seg" style="display: block; margin: auto;" /><iframe height="600" id="igraph" scrolling="no" seamless="seamless"
+				src="https://plot.ly/~xysmas/130" width="600"></iframe>
 
 Yes - so you could use segment to recreate other charts, i suppose, ala this ggplot docs example:
 
@@ -669,6 +688,9 @@ Yes - so you could use segment to recreate other charts, i suppose, ala this ggp
 ```r
 py$ggplotly(p)
 ```
+
+<iframe height="600" id="igraph" scrolling="no" seamless="seamless"
+				src="https://plot.ly/~xysmas/131" width="600"></iframe>
 
 
 ## geom_smooth
@@ -700,7 +722,8 @@ py$ggplotly(p)
 ## Error: conversion not implemented for geom_smooth (basic geom_smooth)
 ```
 
-<img src="figure/minimal-unnamed-chunk-9.png" title="plot of chunk unnamed-chunk-9" alt="plot of chunk unnamed-chunk-9" style="display: block; margin: auto;" />
+<img src="figure/minimal-unnamed-chunk-10.png" title="plot of chunk unnamed-chunk-10" alt="plot of chunk unnamed-chunk-10" style="display: block; margin: auto;" /><iframe height="600" id="igraph" scrolling="no" seamless="seamless"
+				src="https://plot.ly/~xysmas/131" width="600"></iframe>
 
 No smoothing.
 
@@ -720,7 +743,8 @@ py$ggplotly(p)
 ## Error: conversion not implemented for geom_step (basic geom_step)
 ```
 
-<img src="figure/minimal-step.png" title="plot of chunk step" alt="plot of chunk step" style="display: block; margin: auto;" />
+<img src="figure/minimal-step.png" title="plot of chunk step" alt="plot of chunk step" style="display: block; margin: auto;" /><iframe height="600" id="igraph" scrolling="no" seamless="seamless"
+				src="https://plot.ly/~xysmas/131" width="600"></iframe>
 
 
 No.
@@ -740,7 +764,8 @@ py$ggplotly(p)
 ## Error: conversion not implemented for geom_text (basic geom_text)
 ```
 
-<img src="figure/minimal-text.png" title="plot of chunk text" alt="plot of chunk text" style="display: block; margin: auto;" />
+<img src="figure/minimal-text.png" title="plot of chunk text" alt="plot of chunk text" style="display: block; margin: auto;" /><iframe height="600" id="igraph" scrolling="no" seamless="seamless"
+				src="https://plot.ly/~xysmas/131" width="600"></iframe>
 
 No.
 
@@ -766,7 +791,8 @@ py$ggplotly(p)
 ## Error: conversion not implemented for geom_tile (basic geom_tile)
 ```
 
-<img src="figure/minimal-tile.png" title="plot of chunk tile" alt="plot of chunk tile" style="display: block; margin: auto;" />
+<img src="figure/minimal-tile.png" title="plot of chunk tile" alt="plot of chunk tile" style="display: block; margin: auto;" /><iframe height="600" id="igraph" scrolling="no" seamless="seamless"
+				src="https://plot.ly/~xysmas/131" width="600"></iframe>
 
 No.
 
@@ -783,7 +809,8 @@ py$ggplotly(p)
 ## Error: conversion not implemented for geom_violin (basic geom_violin)
 ```
 
-<img src="figure/minimal-vio.png" title="plot of chunk vio" alt="plot of chunk vio" style="display: block; margin: auto;" />
+<img src="figure/minimal-vio.png" title="plot of chunk vio" alt="plot of chunk vio" style="display: block; margin: auto;" /><iframe height="600" id="igraph" scrolling="no" seamless="seamless"
+				src="https://plot.ly/~xysmas/131" width="600"></iframe>
 
 No.
 

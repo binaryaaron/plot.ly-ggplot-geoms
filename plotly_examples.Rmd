@@ -1,22 +1,19 @@
----
-output:
-  html_document:
-    fig_height: 2
-    fig_width: 4
-    highlight: zenburn
-    smart: no
-    toc: yes
----
+
 ```{r setup, include=FALSE, cache=FALSE}
 library(knitr)
 # set global chunk options
-opts_chunk$set(fig.path='figure/minimal-', fig.align='center', fig.show='hold', error=TRUE)
+opts_chunk$set(fig.path='figure/minimal-', fig.align='center', fig.show='hold', error=TRUE, plotly=TRUE)
 ```
 
 ```{r, echo=FALSE}
 plotly.key = 'h4lbm5pbfx'
 
 ```
+```{r test, echo=FALSE}
+a <- "ihateyou"
+a
+```
+
 
 # Plotly and geoms
 I'm going to test out different ggplot geoms to check for compatibility.  Most examples will be taken straight from ggplots website.
@@ -194,8 +191,13 @@ geom_jitter fails, but position jitter passed to geompoint seems to work fine.
 ## geom_line
 (potentially the most useless plot ever, but just as an example...)
 ```{r line}
-p + geom_line()
-py$ggplotly(p + geom_line())
+p <- p + geom_line()
+p
+```
+
+```{r}
+py$ggplotly(p)
+
 ```
 yes, funny that abline and the other line geoms do not work.
 
