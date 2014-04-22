@@ -3,16 +3,28 @@
 
 
 
-
+# Plotly 
+[Plotly](http://www.plot.ly) is a cool, open-source project  ( [github](https://github.com/plotly) ) to help people get interactive plots online easily through a number of various programming languages. It's essentially brand new and I'm going to document how well it works with the popular ggplot2 package in R. This document will be updated as support for more geoms is added.
 
 # Plotly and geoms
-I'm going to test out different ggplot geoms to check for compatibility.  Most examples will be taken straight from ggplots website.
+I'm going to test out different ggplot geoms to check for compatibility.  Most examples will be taken straight from [ggplot's docs website](http://docs.ggplot2.org/current/). The master list of geoms is at the botttom of this post.
 
-Let's load / install the package and get my plotly key: 
+## Installing Plot.ly
+installing Plot.ly is easy. 
+
+```r
+# autoloads ggplot
+library(devtools)
+install_github("plotly", "ropensci")
+signup("yourusername", "youremail@foo.bar")
+```
+
+
+
+
 
 
 ```r
-# autoloads ggplot library('devtools') install_github('plotly', 'ropensci')
 library(plotly)
 ```
 
@@ -24,10 +36,8 @@ library(plotly)
 ```
 
 ```r
-# signup('xysmas', 'xysmas@gmail.com')
 py <- plotly(username = "xysmas", key = plotly.key)
 ```
-
 
 
 # the plots
@@ -93,7 +103,7 @@ h <- h + geom_area(aes(y = level))
 h
 ```
 
-<img src="figure/minimal-unnamed-chunk-4.png" title="plot of chunk unnamed-chunk-4" alt="plot of chunk unnamed-chunk-4" style="display: block; margin: auto;" />
+<img src="figure/minimal-unnamed-chunk-5.png" title="plot of chunk unnamed-chunk-5" alt="plot of chunk unnamed-chunk-5" style="display: block; margin: auto;" />
 
 
 
@@ -378,7 +388,7 @@ py$ggplotly(p + geom_point(position = position_jitter()))
 ```
 
 <img src="figure/minimal-jitter.png" title="plot of chunk jitter" alt="plot of chunk jitter" style="display: block; margin: auto;" /><iframe height="600" id="igraph" scrolling="no" seamless="seamless"
-				src="https://plot.ly/~xysmas/126" width="600"></iframe>
+				src="https://plot.ly/~xysmas/132" width="600"></iframe>
 
 geom_jitter fails, but position jitter passed to geompoint seems to work fine. 
 
@@ -391,7 +401,7 @@ p
 ```
 
 <img src="figure/minimal-line.png" title="plot of chunk line" alt="plot of chunk line" style="display: block; margin: auto;" /><iframe height="600" id="igraph" scrolling="no" seamless="seamless"
-				src="https://plot.ly/~xysmas/126" width="600"></iframe>
+				src="https://plot.ly/~xysmas/132" width="600"></iframe>
 
 
 
@@ -400,7 +410,7 @@ py$ggplotly(p)
 ```
 
 <iframe height="600" id="igraph" scrolling="no" seamless="seamless"
-				src="https://plot.ly/~xysmas/127" width="600"></iframe>
+				src="https://plot.ly/~xysmas/133" width="600"></iframe>
 
 yes, funny that abline and the other line geoms do not work.
 
@@ -441,7 +451,7 @@ test <- ggplot(values) + geom_map(aes(map_id = id), map = positions) + expand_li
 ```
 
 <iframe height="600" id="igraph" scrolling="no" seamless="seamless"
-				src="https://plot.ly/~xysmas/127" width="600"></iframe>
+				src="https://plot.ly/~xysmas/133" width="600"></iframe>
 
 
 
@@ -471,7 +481,7 @@ py$ggplotly(ggplot(crimes, aes(map_id = state)) + geom_map(aes(fill = Murder),
 ```
 
 <iframe height="600" id="igraph" scrolling="no" seamless="seamless"
-				src="https://plot.ly/~xysmas/127" width="600"></iframe>
+				src="https://plot.ly/~xysmas/133" width="600"></iframe>
 
 no maps.
 
@@ -490,7 +500,7 @@ py$ggplotly(c + geom_path(arrow = arrow()))
 ```
 
 <img src="figure/minimal-paths.png" title="plot of chunk paths" alt="plot of chunk paths" style="display: block; margin: auto;" /><iframe height="600" id="igraph" scrolling="no" seamless="seamless"
-				src="https://plot.ly/~xysmas/128" width="600"></iframe>
+				src="https://plot.ly/~xysmas/134" width="600"></iframe>
 
 success!
 
@@ -524,7 +534,7 @@ py$ggplotly(p)
 ```
 
 <img src="figure/minimal-poly.png" title="plot of chunk poly" alt="plot of chunk poly" style="display: block; margin: auto;" /><iframe height="600" id="igraph" scrolling="no" seamless="seamless"
-				src="https://plot.ly/~xysmas/129" width="600"></iframe>
+				src="https://plot.ly/~xysmas/135" width="600"></iframe>
 
 
 Wrong, it works.
@@ -560,7 +570,7 @@ py$ggplotly(m)
 ```
 
 <img src="figure/minimal-quant.png" title="plot of chunk quant" alt="plot of chunk quant" style="display: block; margin: auto;" /><iframe height="600" id="igraph" scrolling="no" seamless="seamless"
-				src="https://plot.ly/~xysmas/129" width="600"></iframe>
+				src="https://plot.ly/~xysmas/135" width="600"></iframe>
 
 no. 
 
@@ -586,8 +596,8 @@ py$ggplotly(raster)
 ## Error: conversion not implemented for geom_raster (basic geom_raster)
 ```
 
-<img src="figure/minimal-unnamed-chunk-8.png" title="plot of chunk unnamed-chunk-8" alt="plot of chunk unnamed-chunk-8" style="display: block; margin: auto;" /><iframe height="600" id="igraph" scrolling="no" seamless="seamless"
-				src="https://plot.ly/~xysmas/129" width="600"></iframe>
+<img src="figure/minimal-unnamed-chunk-9.png" title="plot of chunk unnamed-chunk-9" alt="plot of chunk unnamed-chunk-9" style="display: block; margin: auto;" /><iframe height="600" id="igraph" scrolling="no" seamless="seamless"
+				src="https://plot.ly/~xysmas/135" width="600"></iframe>
 
 no. 
 
@@ -606,7 +616,7 @@ py$ggplotly(p)
 ```
 
 <img src="figure/minimal-rect.png" title="plot of chunk rect" alt="plot of chunk rect" style="display: block; margin: auto;" /><iframe height="600" id="igraph" scrolling="no" seamless="seamless"
-				src="https://plot.ly/~xysmas/129" width="600"></iframe>
+				src="https://plot.ly/~xysmas/135" width="600"></iframe>
 
 
 No. 
@@ -636,7 +646,7 @@ py$ggplotly(m)
 ```
 
 <iframe height="600" id="igraph" scrolling="no" seamless="seamless"
-				src="https://plot.ly/~xysmas/129" width="600"></iframe>
+				src="https://plot.ly/~xysmas/135" width="600"></iframe>
 
 
 Points work, stat summary doesn't. 
@@ -656,7 +666,7 @@ py$ggplotly(p)
 ```
 
 <img src="figure/minimal-rug.png" title="plot of chunk rug" alt="plot of chunk rug" style="display: block; margin: auto;" /><iframe height="600" id="igraph" scrolling="no" seamless="seamless"
-				src="https://plot.ly/~xysmas/129" width="600"></iframe>
+				src="https://plot.ly/~xysmas/135" width="600"></iframe>
 
 
 No.
@@ -673,7 +683,7 @@ py$ggplotly(p)
 ```
 
 <img src="figure/minimal-seg.png" title="plot of chunk seg" alt="plot of chunk seg" style="display: block; margin: auto;" /><iframe height="600" id="igraph" scrolling="no" seamless="seamless"
-				src="https://plot.ly/~xysmas/130" width="600"></iframe>
+				src="https://plot.ly/~xysmas/136" width="600"></iframe>
 
 Yes - so you could use segment to recreate other charts, i suppose, ala this ggplot docs example:
 
@@ -690,7 +700,7 @@ py$ggplotly(p)
 ```
 
 <iframe height="600" id="igraph" scrolling="no" seamless="seamless"
-				src="https://plot.ly/~xysmas/131" width="600"></iframe>
+				src="https://plot.ly/~xysmas/137" width="600"></iframe>
 
 
 ## geom_smooth
@@ -722,8 +732,8 @@ py$ggplotly(p)
 ## Error: conversion not implemented for geom_smooth (basic geom_smooth)
 ```
 
-<img src="figure/minimal-unnamed-chunk-10.png" title="plot of chunk unnamed-chunk-10" alt="plot of chunk unnamed-chunk-10" style="display: block; margin: auto;" /><iframe height="600" id="igraph" scrolling="no" seamless="seamless"
-				src="https://plot.ly/~xysmas/131" width="600"></iframe>
+<img src="figure/minimal-unnamed-chunk-11.png" title="plot of chunk unnamed-chunk-11" alt="plot of chunk unnamed-chunk-11" style="display: block; margin: auto;" /><iframe height="600" id="igraph" scrolling="no" seamless="seamless"
+				src="https://plot.ly/~xysmas/137" width="600"></iframe>
 
 No smoothing.
 
@@ -744,7 +754,7 @@ py$ggplotly(p)
 ```
 
 <img src="figure/minimal-step.png" title="plot of chunk step" alt="plot of chunk step" style="display: block; margin: auto;" /><iframe height="600" id="igraph" scrolling="no" seamless="seamless"
-				src="https://plot.ly/~xysmas/131" width="600"></iframe>
+				src="https://plot.ly/~xysmas/137" width="600"></iframe>
 
 
 No.
@@ -765,7 +775,7 @@ py$ggplotly(p)
 ```
 
 <img src="figure/minimal-text.png" title="plot of chunk text" alt="plot of chunk text" style="display: block; margin: auto;" /><iframe height="600" id="igraph" scrolling="no" seamless="seamless"
-				src="https://plot.ly/~xysmas/131" width="600"></iframe>
+				src="https://plot.ly/~xysmas/137" width="600"></iframe>
 
 No.
 
@@ -792,7 +802,7 @@ py$ggplotly(p)
 ```
 
 <img src="figure/minimal-tile.png" title="plot of chunk tile" alt="plot of chunk tile" style="display: block; margin: auto;" /><iframe height="600" id="igraph" scrolling="no" seamless="seamless"
-				src="https://plot.ly/~xysmas/131" width="600"></iframe>
+				src="https://plot.ly/~xysmas/137" width="600"></iframe>
 
 No.
 
@@ -810,7 +820,7 @@ py$ggplotly(p)
 ```
 
 <img src="figure/minimal-vio.png" title="plot of chunk vio" alt="plot of chunk vio" style="display: block; margin: auto;" /><iframe height="600" id="igraph" scrolling="no" seamless="seamless"
-				src="https://plot.ly/~xysmas/131" width="600"></iframe>
+				src="https://plot.ly/~xysmas/137" width="600"></iframe>
 
 No.
 
@@ -835,7 +845,7 @@ No.
 * geom_errorbar() = FALSE
 * geom_errorbarh() = FALSE
 * geom_freqpoly() = FALSE
-* geom_hex() = 
+* geom_hex() = Untested
 * geom_histogram() = FALSE
 * geom_hline() = FALSE
 * geom_jitter() = FALSE
@@ -858,6 +868,7 @@ No.
 * geom_tile() = FALSE
 * geom_violin() = FALSE
 * geom_vline() = FALSE
+
 ### stats 
 * stat_abline() = FALSE
 * stat_bin()
@@ -884,10 +895,7 @@ No.
 * stat_vline()
 * stat_ydensity()
 
-
-
-
-
+### other ggplot stuff
 * expand_limits
 * guide_legend
 * guide_colourbar(guide_colorbar)

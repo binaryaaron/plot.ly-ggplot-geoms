@@ -5,24 +5,25 @@ library(knitr)
 opts_chunk$set(fig.path='figure/minimal-', fig.align='center', fig.show='hold', error=TRUE, plotly=TRUE)
 ```
 
-```{r, echo=FALSE}
-plotly.key = 'h4lbm5pbfx'
 
-```
 # Plotly 
-[Plotly](http://www.plot.ly) is a cool, open-source project to help people get interactive plots online easily through a number of various programming languages. 
-
+[Plotly](http://www.plot.ly) is a cool, open-source project  ( [github](https://github.com/plotly) ) to help people get interactive plots online easily through a number of various programming languages. It's essentially brand new and I'm going to document how well it works with the popular ggplot2 package in R. This document will be updated as support for more geoms is added.
 
 # Plotly and geoms
-I'm going to test out different ggplot geoms to check for compatibility.  Most examples will be taken straight from ggplots website.
+I'm going to test out different ggplot geoms to check for compatibility.  Most examples will be taken straight from [ggplot's docs website](http://docs.ggplot2.org/current/). The master list of geoms is at the botttom of this post.
 
+## Installing Plot.ly
 installing Plot.ly is easy. 
-
 ```{r, plotly=TRUE, eval=FALSE} 
 #autoloads ggplot
 library(devtools)
 install_github("plotly", "ropensci")
 signup("yourusername", "youremail@foo.bar")
+```
+
+```{r, echo=FALSE}
+plotly.key = 'h4lbm5pbfx'
+
 ```
 
 ```{r}
@@ -474,7 +475,7 @@ No.
 * geom_errorbar() = FALSE
 * geom_errorbarh() = FALSE
 * geom_freqpoly() = FALSE
-* geom_hex() = 
+* geom_hex() = Untested
 * geom_histogram() = FALSE
 * geom_hline() = FALSE
 * geom_jitter() = FALSE
@@ -497,6 +498,7 @@ No.
 * geom_tile() = FALSE
 * geom_violin() = FALSE
 * geom_vline() = FALSE
+
 ### stats 
 * stat_abline() = FALSE
 * stat_bin()
@@ -523,10 +525,7 @@ No.
 * stat_vline()
 * stat_ydensity()
 
-
-
-
-
+### other ggplot stuff
 * expand_limits
 * guide_legend
 * guide_colourbar(guide_colorbar)
