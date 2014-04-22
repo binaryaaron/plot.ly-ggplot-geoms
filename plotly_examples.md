@@ -7,7 +7,7 @@
 [Plotly](http://www.plot.ly) is a cool, open-source project  ( [github](https://github.com/plotly) ) to help people get interactive plots online easily through a number of various programming languages. It's essentially brand new and I'm going to document how well it works with the popular ggplot2 package in R. This document will be updated as support for more geoms is added.
 
 # Plotly and geoms
-I'm going to test out different ggplot geoms to check for compatibility.  Most examples will be taken straight from [ggplot's docs website](http://docs.ggplot2.org/current/). The master list of geoms is at the botttom of this post.
+I'm going to test out different ggplot geoms to check for compatibility.  Most examples will be taken straight from [ggplot's docs website](http://docs.ggplot2.org/current/). The master list of geoms is at the botttom of this post. Some of the plots have minor errors.
 
 ## Installing Plot.ly
 installing Plot.ly is easy. 
@@ -388,7 +388,7 @@ py$ggplotly(p + geom_point(position = position_jitter()))
 ```
 
 <img src="figure/minimal-jitter.png" title="plot of chunk jitter" alt="plot of chunk jitter" style="display: block; margin: auto;" /><iframe height="600" id="igraph" scrolling="no" seamless="seamless"
-				src="https://plot.ly/~xysmas/132" width="600"></iframe>
+				src="https://plot.ly/~xysmas/161" width="600"></iframe>
 
 geom_jitter fails, but position jitter passed to geompoint seems to work fine. 
 
@@ -401,7 +401,7 @@ p
 ```
 
 <img src="figure/minimal-line.png" title="plot of chunk line" alt="plot of chunk line" style="display: block; margin: auto;" /><iframe height="600" id="igraph" scrolling="no" seamless="seamless"
-				src="https://plot.ly/~xysmas/132" width="600"></iframe>
+				src="https://plot.ly/~xysmas/161" width="600"></iframe>
 
 
 
@@ -410,7 +410,7 @@ py$ggplotly(p)
 ```
 
 <iframe height="600" id="igraph" scrolling="no" seamless="seamless"
-				src="https://plot.ly/~xysmas/133" width="600"></iframe>
+				src="https://plot.ly/~xysmas/162" width="600"></iframe>
 
 yes, funny that abline and the other line geoms do not work.
 
@@ -451,7 +451,7 @@ test <- ggplot(values) + geom_map(aes(map_id = id), map = positions) + expand_li
 ```
 
 <iframe height="600" id="igraph" scrolling="no" seamless="seamless"
-				src="https://plot.ly/~xysmas/133" width="600"></iframe>
+				src="https://plot.ly/~xysmas/162" width="600"></iframe>
 
 
 
@@ -481,7 +481,7 @@ py$ggplotly(ggplot(crimes, aes(map_id = state)) + geom_map(aes(fill = Murder),
 ```
 
 <iframe height="600" id="igraph" scrolling="no" seamless="seamless"
-				src="https://plot.ly/~xysmas/133" width="600"></iframe>
+				src="https://plot.ly/~xysmas/162" width="600"></iframe>
 
 no maps.
 
@@ -500,7 +500,7 @@ py$ggplotly(c + geom_path(arrow = arrow()))
 ```
 
 <img src="figure/minimal-paths.png" title="plot of chunk paths" alt="plot of chunk paths" style="display: block; margin: auto;" /><iframe height="600" id="igraph" scrolling="no" seamless="seamless"
-				src="https://plot.ly/~xysmas/134" width="600"></iframe>
+				src="https://plot.ly/~xysmas/163" width="600"></iframe>
 
 success!
 
@@ -531,10 +531,11 @@ datapoly <- merge(values, positions, by = c("id"))
 
 (p <- ggplot(datapoly, aes(x = x, y = y)) + geom_polygon(aes(fill = value, group = id)))
 py$ggplotly(p)
+rm(p)
 ```
 
 <img src="figure/minimal-poly.png" title="plot of chunk poly" alt="plot of chunk poly" style="display: block; margin: auto;" /><iframe height="600" id="igraph" scrolling="no" seamless="seamless"
-				src="https://plot.ly/~xysmas/135" width="600"></iframe>
+				src="https://plot.ly/~xysmas/164" width="600"></iframe>
 
 
 Wrong, it works.
@@ -553,16 +554,56 @@ m
 ## Smoothing formula not specified. Using: y ~ x
 ```
 
+```
+## Warning: Solution may be nonunique
+```
+
 ```r
 py$ggplotly(m)
 ```
 
 ```
+## Warning: Solution may be nonunique
+```
+
+```
 ## Smoothing formula not specified. Using: y ~ x
+```
+
+```
+## Warning: Solution may be nonunique
+```
+
+```
 ## Smoothing formula not specified. Using: y ~ x
+```
+
+```
+## Warning: Solution may be nonunique
+```
+
+```
 ## Smoothing formula not specified. Using: y ~ x
+```
+
+```
+## Warning: Solution may be nonunique
+```
+
+```
 ## Smoothing formula not specified. Using: y ~ x
+```
+
+```
+## Warning: Solution may be nonunique
+```
+
+```
 ## Smoothing formula not specified. Using: y ~ x
+```
+
+```
+## Warning: Solution may be nonunique
 ```
 
 ```
@@ -570,7 +611,7 @@ py$ggplotly(m)
 ```
 
 <img src="figure/minimal-quant.png" title="plot of chunk quant" alt="plot of chunk quant" style="display: block; margin: auto;" /><iframe height="600" id="igraph" scrolling="no" seamless="seamless"
-				src="https://plot.ly/~xysmas/135" width="600"></iframe>
+				src="https://plot.ly/~xysmas/164" width="600"></iframe>
 
 no. 
 
@@ -597,7 +638,7 @@ py$ggplotly(raster)
 ```
 
 <img src="figure/minimal-unnamed-chunk-9.png" title="plot of chunk unnamed-chunk-9" alt="plot of chunk unnamed-chunk-9" style="display: block; margin: auto;" /><iframe height="600" id="igraph" scrolling="no" seamless="seamless"
-				src="https://plot.ly/~xysmas/135" width="600"></iframe>
+				src="https://plot.ly/~xysmas/164" width="600"></iframe>
 
 no. 
 
@@ -616,7 +657,7 @@ py$ggplotly(p)
 ```
 
 <img src="figure/minimal-rect.png" title="plot of chunk rect" alt="plot of chunk rect" style="display: block; margin: auto;" /><iframe height="600" id="igraph" scrolling="no" seamless="seamless"
-				src="https://plot.ly/~xysmas/135" width="600"></iframe>
+				src="https://plot.ly/~xysmas/164" width="600"></iframe>
 
 
 No. 
@@ -627,26 +668,17 @@ No.
 msamp <- movies[sample(nrow(movies), 1000), ]
 m <- ggplot(msamp, aes(y = log(votes), x = year))
 m <- m + geom_point()
-m <- stat_summary(geom = "ribbon", fun.ymin = "min", fun.ymax = "max")
+m <- m + stat_summary(geom = "ribbon", fun.ymin = "min", fun.ymax = "max")
 m
-```
-
-```
-## geom_ribbon:  
-## stat_summary: fun.ymin = min, fun.ymax = max 
-## position_identity: (width = NULL, height = NULL)
-```
-
-```r
 py$ggplotly(m)
 ```
 
 ```
-## Error: gg must be a ggplot
+## Error: TODO
 ```
 
-<iframe height="600" id="igraph" scrolling="no" seamless="seamless"
-				src="https://plot.ly/~xysmas/135" width="600"></iframe>
+<img src="figure/minimal-ribbon.png" title="plot of chunk ribbon" alt="plot of chunk ribbon" style="display: block; margin: auto;" /><iframe height="600" id="igraph" scrolling="no" seamless="seamless"
+				src="https://plot.ly/~xysmas/164" width="600"></iframe>
 
 
 Points work, stat summary doesn't. 
@@ -666,7 +698,7 @@ py$ggplotly(p)
 ```
 
 <img src="figure/minimal-rug.png" title="plot of chunk rug" alt="plot of chunk rug" style="display: block; margin: auto;" /><iframe height="600" id="igraph" scrolling="no" seamless="seamless"
-				src="https://plot.ly/~xysmas/135" width="600"></iframe>
+				src="https://plot.ly/~xysmas/164" width="600"></iframe>
 
 
 No.
@@ -677,30 +709,15 @@ example from ggplot docs
 ```r
 library(grid)  # needed for arrow function
 p <- ggplot(seals, aes(x = long, y = lat))
-(p <- p + geom_segment(aes(xend = long + delta_long, yend = lat + delta_lat), 
-    arrow = arrow(length = unit(0.1, "cm"))))
+p <- p + geom_segment(aes(xend = long + delta_long, yend = lat + delta_lat), 
+    arrow = arrow(length = unit(0.1, "cm")))
+p
 py$ggplotly(p)
 ```
 
 <img src="figure/minimal-seg.png" title="plot of chunk seg" alt="plot of chunk seg" style="display: block; margin: auto;" /><iframe height="600" id="igraph" scrolling="no" seamless="seamless"
-				src="https://plot.ly/~xysmas/136" width="600"></iframe>
+				src="https://plot.ly/~xysmas/165" width="600"></iframe>
 
-Yes - so you could use segment to recreate other charts, i suppose, ala this ggplot docs example:
-
-```r
-(p <- qplot(x, Freq, data = counts, geom = "segment", yend = 0, xend = x, size = I(10)))
-```
-
-```
-## Error: object 'counts' not found
-```
-
-```r
-py$ggplotly(p)
-```
-
-<iframe height="600" id="igraph" scrolling="no" seamless="seamless"
-				src="https://plot.ly/~xysmas/137" width="600"></iframe>
 
 
 ## geom_smooth
@@ -732,8 +749,8 @@ py$ggplotly(p)
 ## Error: conversion not implemented for geom_smooth (basic geom_smooth)
 ```
 
-<img src="figure/minimal-unnamed-chunk-11.png" title="plot of chunk unnamed-chunk-11" alt="plot of chunk unnamed-chunk-11" style="display: block; margin: auto;" /><iframe height="600" id="igraph" scrolling="no" seamless="seamless"
-				src="https://plot.ly/~xysmas/137" width="600"></iframe>
+<img src="figure/minimal-unnamed-chunk-10.png" title="plot of chunk unnamed-chunk-10" alt="plot of chunk unnamed-chunk-10" style="display: block; margin: auto;" /><iframe height="600" id="igraph" scrolling="no" seamless="seamless"
+				src="https://plot.ly/~xysmas/165" width="600"></iframe>
 
 No smoothing.
 
@@ -754,7 +771,7 @@ py$ggplotly(p)
 ```
 
 <img src="figure/minimal-step.png" title="plot of chunk step" alt="plot of chunk step" style="display: block; margin: auto;" /><iframe height="600" id="igraph" scrolling="no" seamless="seamless"
-				src="https://plot.ly/~xysmas/137" width="600"></iframe>
+				src="https://plot.ly/~xysmas/165" width="600"></iframe>
 
 
 No.
@@ -775,7 +792,7 @@ py$ggplotly(p)
 ```
 
 <img src="figure/minimal-text.png" title="plot of chunk text" alt="plot of chunk text" style="display: block; margin: auto;" /><iframe height="600" id="igraph" scrolling="no" seamless="seamless"
-				src="https://plot.ly/~xysmas/137" width="600"></iframe>
+				src="https://plot.ly/~xysmas/165" width="600"></iframe>
 
 No.
 
@@ -802,7 +819,7 @@ py$ggplotly(p)
 ```
 
 <img src="figure/minimal-tile.png" title="plot of chunk tile" alt="plot of chunk tile" style="display: block; margin: auto;" /><iframe height="600" id="igraph" scrolling="no" seamless="seamless"
-				src="https://plot.ly/~xysmas/137" width="600"></iframe>
+				src="https://plot.ly/~xysmas/165" width="600"></iframe>
 
 No.
 
@@ -820,7 +837,7 @@ py$ggplotly(p)
 ```
 
 <img src="figure/minimal-vio.png" title="plot of chunk vio" alt="plot of chunk vio" style="display: block; margin: auto;" /><iframe height="600" id="igraph" scrolling="no" seamless="seamless"
-				src="https://plot.ly/~xysmas/137" width="600"></iframe>
+				src="https://plot.ly/~xysmas/165" width="600"></iframe>
 
 No.
 

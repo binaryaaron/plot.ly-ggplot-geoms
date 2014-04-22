@@ -2,7 +2,7 @@
 ```{r setup, include=FALSE, cache=FALSE}
 library(knitr)
 # set global chunk options
-opts_chunk$set(fig.path='figure/minimal-', fig.align='center', fig.show='hold', error=TRUE, plotly=TRUE)
+opts_chunk$set(fig.path='figure/minimal-', fig.align='center', fig.show='hold', fig.height=2.5, fig.width=4, figerror=TRUE, plotly=TRUE)
 ```
 
 
@@ -10,7 +10,7 @@ opts_chunk$set(fig.path='figure/minimal-', fig.align='center', fig.show='hold', 
 [Plotly](http://www.plot.ly) is a cool, open-source project  ( [github](https://github.com/plotly) ) to help people get interactive plots online easily through a number of various programming languages. It's essentially brand new and I'm going to document how well it works with the popular ggplot2 package in R. This document will be updated as support for more geoms is added.
 
 # Plotly and geoms
-I'm going to test out different ggplot geoms to check for compatibility.  Most examples will be taken straight from [ggplot's docs website](http://docs.ggplot2.org/current/). The master list of geoms is at the botttom of this post.
+I'm going to test out different ggplot geoms to check for compatibility.  Most examples will be taken straight from [ggplot's docs website](http://docs.ggplot2.org/current/). The master list of geoms is at the botttom of this post. Some of the plots have minor errors.
 
 ## Installing Plot.ly
 installing Plot.ly is easy. 
@@ -302,6 +302,7 @@ datapoly <- merge(values, positions, by=c("id"))
 
 (p <- ggplot(datapoly, aes(x=x, y=y)) + geom_polygon(aes(fill=value, group=id)))
 py$ggplotly(p)
+rm(p)
 ```
 
 Wrong, it works.
@@ -355,7 +356,7 @@ No.
 msamp <- movies[sample(nrow(movies), 1000), ]
 m <- ggplot(msamp, aes(y=log(votes), x=year))
 m <- m + geom_point()
-m <- stat_summary(geom="ribbon", fun.ymin="min", fun.ymax="max")
+m <- m + stat_summary(geom="ribbon", fun.ymin="min", fun.ymax="max")
 m
 py$ggplotly(m)
 
@@ -380,15 +381,11 @@ example from ggplot docs
 ```{r seg}
 library(grid) # needed for arrow function
 p <- ggplot(seals, aes(x = long, y = lat))
-(p <- p + geom_segment(aes(xend = long + delta_long, yend = lat + delta_lat), arrow = arrow(length = unit(0.1,"cm"))))
+p <- p + geom_segment(aes(xend = long + delta_long, yend = lat + delta_lat), arrow = arrow(length = unit(0.1,"cm")))
+p
 py$ggplotly(p)
 ```
-Yes - so you could use segment to recreate other charts, i suppose, ala this ggplot docs example:
-```{r}
-(p <- qplot(x, Freq, data = counts, geom = "segment",
-  yend = 0, xend = x, size = I(10)))
-py$ggplotly(p)
-```
+
 
 ## geom_smooth
 ```{r}
