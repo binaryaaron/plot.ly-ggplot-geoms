@@ -9,26 +9,26 @@ opts_chunk$set(fig.path='figure/minimal-', fig.align='center', fig.show='hold', 
 plotly.key = 'h4lbm5pbfx'
 
 ```
-```{r test, echo=FALSE}
-a <- "ihateyou"
-a
-```
+# Plotly 
+[Plotly](http://www.plot.ly) is a cool, open-source project to help people get interactive plots online easily through a number of various programming languages. 
 
 
 # Plotly and geoms
 I'm going to test out different ggplot geoms to check for compatibility.  Most examples will be taken straight from ggplots website.
 
-Let's load / install the package and get my plotly key: 
+installing Plot.ly is easy. 
 
-```{r, plotly=TRUE} 
+```{r, plotly=TRUE, eval=FALSE} 
 #autoloads ggplot
-# library("devtools")
-# install_github("plotly", "ropensci")
-library(plotly)
-# signup("xysmas", "xysmas@gmail.com")
-py <- plotly(username= 'xysmas', key=plotly.key)
+library(devtools)
+install_github("plotly", "ropensci")
+signup("yourusername", "youremail@foo.bar")
 ```
 
+```{r}
+library(plotly)
+py <- plotly(username= 'xysmas', key=plotly.key)
+```
 
 # the plots
 
