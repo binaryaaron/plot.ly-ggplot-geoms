@@ -1,10 +1,19 @@
+---
+output:
+  html_document:
+    fig_caption: yes
+    fig_height: 2.5
+    fig_width: 4
+    highlight: zenburn
+    toc: yes
+---
 
 
 
 
 
 # Plotly 
-[Plotly](http://www.plot.ly) is a cool, open-source project  ( [github](https://github.com/plotly) ) to help people get interactive plots online easily through a number of various programming languages. It's essentially brand new and I'm going to document how well it works with the popular ggplot2 package in R. This document will be updated as support for more geoms is added.
+[Plotly](http://www.plot.ly) is a cool, open-source project  ( [github](https://github.com/plotly) ) to help people get interactive plots online easily through a number of various programming languages. It's essentially brand new and I'm going to document how well it works with the popular ggplot2 package in R. This post will be updated as support for more geoms is added.
 
 # Plotly and geoms
 I'm going to test out different ggplot geoms to check for compatibility.  Most examples will be taken straight from [ggplot's docs website](http://docs.ggplot2.org/current/). The master list of geoms is at the botttom of this post. Some of the plots have minor errors.
@@ -388,7 +397,7 @@ py$ggplotly(p + geom_point(position = position_jitter()))
 ```
 
 <img src="figure/minimal-jitter.png" title="plot of chunk jitter" alt="plot of chunk jitter" style="display: block; margin: auto;" /><iframe height="600" id="igraph" scrolling="no" seamless="seamless"
-				src="https://plot.ly/~xysmas/161" width="600"></iframe>
+				src="https://plot.ly/~xysmas/175" width="600"></iframe>
 
 geom_jitter fails, but position jitter passed to geompoint seems to work fine. 
 
@@ -401,7 +410,7 @@ p
 ```
 
 <img src="figure/minimal-line.png" title="plot of chunk line" alt="plot of chunk line" style="display: block; margin: auto;" /><iframe height="600" id="igraph" scrolling="no" seamless="seamless"
-				src="https://plot.ly/~xysmas/161" width="600"></iframe>
+				src="https://plot.ly/~xysmas/175" width="600"></iframe>
 
 
 
@@ -410,78 +419,60 @@ py$ggplotly(p)
 ```
 
 <iframe height="600" id="igraph" scrolling="no" seamless="seamless"
-				src="https://plot.ly/~xysmas/162" width="600"></iframe>
+				src="https://plot.ly/~xysmas/176" width="600"></iframe>
 
 yes, funny that abline and the other line geoms do not work.
 
 ## geom_map 
-straight from ggplot docs:
+
 
 ```r
-crimes <- data.frame(state = tolower(rownames(USArrests)), USArrests)
-library(reshape2)  # for melt
 library(maps)
-crimesm <- melt(crimes, id = 1)
-states_map <- map_data("state")
-crimemap <- ggplot(crimes, aes(map_id = state)) + geom_map(aes(fill = Murder), 
-    map = states_map) + expand_limits(x = states_map$long, y = states_map$lat)
+library(plyr)
+texas <- map("county", regions = "texas", plot = FALSE, fill = TRUE)
+texas <- fortify(texas)
+texas <- ddply(texas, "subregion", function(df) {
+    mutate(df, fakeIQ = rnorm(1, 80, 15))
+})
 
-crimemap.coordmap <- last_plot() + coord_map()
+p <- ggplot(texas, aes(x = long, y = lat, group = group, fill = fakeIQ))
+p <- p + geom_polygon(colour = "white", size = 0.3)
+print(p)
+py$ggplotly(p)
 
-crimemap.facet <- ggplot(crimesm, aes(map_id = state)) + geom_map(aes(fill = value), 
-    map = states_map) + expand_limits(x = states_map$long, y = states_map$lat) + 
-    facet_wrap(~variable)
+library(ggmap)
+p <- qmap("Texas", zoom = 6, maptype = "satellite", legend = "topleft")
+```
+
+```
+## Map from URL : http://maps.googleapis.com/maps/api/staticmap?center=Texas&zoom=6&size=%20640x640&scale=%202&maptype=satellite&sensor=false
+## Google Maps API Terms of Service : http://developers.google.com/maps/terms
+## Information from URL : http://maps.googleapis.com/maps/api/geocode/json?address=Texas&sensor=false
+## Google Maps API Terms of Service : http://developers.google.com/maps/terms
+```
+
+```r
+p <- p + geom_polygon(data = texas, aes(x = long, y = lat, group = group, fill = fakeIQ), 
+    color = "white", alpha = 0.75, size = 0.2)
+p <- p + labs(title = "IQ scores by county of people who voted for Rick Perry (FAKE DATA) ")
+p
+```
+
+<img src="figure/minimal-maps1.png" title="plot of chunk maps" alt="plot of chunk maps" style="display: block; margin: auto;" /><img src="figure/minimal-maps2.png" title="plot of chunk maps" alt="plot of chunk maps" style="display: block; margin: auto;" /><iframe height="600" id="igraph" scrolling="no" seamless="seamless"
+				src="https://plot.ly/~xysmas/177" width="600"></iframe>
 
 
-# When using geom_polygon, you will typically need two data frames: one
-# contains the coordinates of each polygon (positions), and the other the
-# values associated with each polygon (values).  An id variable links the
-# two together
 
-ids <- factor(c("1.1", "2.1", "1.2", "2.2", "1.3", "2.3"))
+```r
+py$ggplotly(p)
+```
 
-values <- data.frame(id = ids, value = c(3, 3.1, 3.1, 3.2, 3.15, 3.5))
-
-positions <- data.frame(id = rep(ids, each = 4), x = c(2, 1, 1.1, 2.2, 1, 0, 
-    0.3, 1.1, 2.2, 1.1, 1.2, 2.5, 1.1, 0.3, 0.5, 1.2, 2.5, 1.2, 1.3, 2.7, 1.2, 
-    0.5, 0.6, 1.3), y = c(-0.5, 0, 1, 0.5, 0, 0.5, 1.5, 1, 0.5, 1, 2.1, 1.7, 
-    1, 1.5, 2.2, 2.1, 1.7, 2.1, 3.2, 2.8, 2.1, 2.2, 3.3, 3.2))
-
-test <- ggplot(values) + geom_map(aes(map_id = id), map = positions) + expand_limits(positions)
+```
+## Error: object 'lon' not found
 ```
 
 <iframe height="600" id="igraph" scrolling="no" seamless="seamless"
-				src="https://plot.ly/~xysmas/162" width="600"></iframe>
-
-
-
-```r
-py$ggplotly(test)
-```
-
-```
-## Error: conversion not implemented for geom_map (basic geom_map)
-```
-
-```r
-py$ggplotly(crimemap.facet)
-```
-
-```
-## Error: object 'state' not found
-```
-
-```r
-py$ggplotly(ggplot(crimes, aes(map_id = state)) + geom_map(aes(fill = Murder), 
-    map = states_map) + expand_limits(x = states_map$long, y = states_map$lat))
-```
-
-```
-## Error: object 'state' not found
-```
-
-<iframe height="600" id="igraph" scrolling="no" seamless="seamless"
-				src="https://plot.ly/~xysmas/162" width="600"></iframe>
+				src="https://plot.ly/~xysmas/177" width="600"></iframe>
 
 no maps.
 
@@ -500,7 +491,7 @@ py$ggplotly(c + geom_path(arrow = arrow()))
 ```
 
 <img src="figure/minimal-paths.png" title="plot of chunk paths" alt="plot of chunk paths" style="display: block; margin: auto;" /><iframe height="600" id="igraph" scrolling="no" seamless="seamless"
-				src="https://plot.ly/~xysmas/163" width="600"></iframe>
+				src="https://plot.ly/~xysmas/178" width="600"></iframe>
 
 success!
 
@@ -535,7 +526,7 @@ rm(p)
 ```
 
 <img src="figure/minimal-poly.png" title="plot of chunk poly" alt="plot of chunk poly" style="display: block; margin: auto;" /><iframe height="600" id="igraph" scrolling="no" seamless="seamless"
-				src="https://plot.ly/~xysmas/164" width="600"></iframe>
+				src="https://plot.ly/~xysmas/179" width="600"></iframe>
 
 
 Wrong, it works.
@@ -554,56 +545,16 @@ m
 ## Smoothing formula not specified. Using: y ~ x
 ```
 
-```
-## Warning: Solution may be nonunique
-```
-
 ```r
 py$ggplotly(m)
 ```
 
 ```
-## Warning: Solution may be nonunique
-```
-
-```
 ## Smoothing formula not specified. Using: y ~ x
-```
-
-```
-## Warning: Solution may be nonunique
-```
-
-```
 ## Smoothing formula not specified. Using: y ~ x
-```
-
-```
-## Warning: Solution may be nonunique
-```
-
-```
 ## Smoothing formula not specified. Using: y ~ x
-```
-
-```
-## Warning: Solution may be nonunique
-```
-
-```
 ## Smoothing formula not specified. Using: y ~ x
-```
-
-```
-## Warning: Solution may be nonunique
-```
-
-```
 ## Smoothing formula not specified. Using: y ~ x
-```
-
-```
-## Warning: Solution may be nonunique
 ```
 
 ```
@@ -611,7 +562,7 @@ py$ggplotly(m)
 ```
 
 <img src="figure/minimal-quant.png" title="plot of chunk quant" alt="plot of chunk quant" style="display: block; margin: auto;" /><iframe height="600" id="igraph" scrolling="no" seamless="seamless"
-				src="https://plot.ly/~xysmas/164" width="600"></iframe>
+				src="https://plot.ly/~xysmas/179" width="600"></iframe>
 
 no. 
 
@@ -638,7 +589,7 @@ py$ggplotly(raster)
 ```
 
 <img src="figure/minimal-unnamed-chunk-9.png" title="plot of chunk unnamed-chunk-9" alt="plot of chunk unnamed-chunk-9" style="display: block; margin: auto;" /><iframe height="600" id="igraph" scrolling="no" seamless="seamless"
-				src="https://plot.ly/~xysmas/164" width="600"></iframe>
+				src="https://plot.ly/~xysmas/179" width="600"></iframe>
 
 no. 
 
@@ -657,7 +608,7 @@ py$ggplotly(p)
 ```
 
 <img src="figure/minimal-rect.png" title="plot of chunk rect" alt="plot of chunk rect" style="display: block; margin: auto;" /><iframe height="600" id="igraph" scrolling="no" seamless="seamless"
-				src="https://plot.ly/~xysmas/164" width="600"></iframe>
+				src="https://plot.ly/~xysmas/179" width="600"></iframe>
 
 
 No. 
@@ -678,7 +629,7 @@ py$ggplotly(m)
 ```
 
 <img src="figure/minimal-ribbon.png" title="plot of chunk ribbon" alt="plot of chunk ribbon" style="display: block; margin: auto;" /><iframe height="600" id="igraph" scrolling="no" seamless="seamless"
-				src="https://plot.ly/~xysmas/164" width="600"></iframe>
+				src="https://plot.ly/~xysmas/179" width="600"></iframe>
 
 
 Points work, stat summary doesn't. 
@@ -698,7 +649,7 @@ py$ggplotly(p)
 ```
 
 <img src="figure/minimal-rug.png" title="plot of chunk rug" alt="plot of chunk rug" style="display: block; margin: auto;" /><iframe height="600" id="igraph" scrolling="no" seamless="seamless"
-				src="https://plot.ly/~xysmas/164" width="600"></iframe>
+				src="https://plot.ly/~xysmas/179" width="600"></iframe>
 
 
 No.
@@ -716,7 +667,7 @@ py$ggplotly(p)
 ```
 
 <img src="figure/minimal-seg.png" title="plot of chunk seg" alt="plot of chunk seg" style="display: block; margin: auto;" /><iframe height="600" id="igraph" scrolling="no" seamless="seamless"
-				src="https://plot.ly/~xysmas/165" width="600"></iframe>
+				src="https://plot.ly/~xysmas/180" width="600"></iframe>
 
 
 
@@ -750,7 +701,7 @@ py$ggplotly(p)
 ```
 
 <img src="figure/minimal-unnamed-chunk-10.png" title="plot of chunk unnamed-chunk-10" alt="plot of chunk unnamed-chunk-10" style="display: block; margin: auto;" /><iframe height="600" id="igraph" scrolling="no" seamless="seamless"
-				src="https://plot.ly/~xysmas/165" width="600"></iframe>
+				src="https://plot.ly/~xysmas/180" width="600"></iframe>
 
 No smoothing.
 
@@ -771,7 +722,7 @@ py$ggplotly(p)
 ```
 
 <img src="figure/minimal-step.png" title="plot of chunk step" alt="plot of chunk step" style="display: block; margin: auto;" /><iframe height="600" id="igraph" scrolling="no" seamless="seamless"
-				src="https://plot.ly/~xysmas/165" width="600"></iframe>
+				src="https://plot.ly/~xysmas/180" width="600"></iframe>
 
 
 No.
@@ -792,7 +743,7 @@ py$ggplotly(p)
 ```
 
 <img src="figure/minimal-text.png" title="plot of chunk text" alt="plot of chunk text" style="display: block; margin: auto;" /><iframe height="600" id="igraph" scrolling="no" seamless="seamless"
-				src="https://plot.ly/~xysmas/165" width="600"></iframe>
+				src="https://plot.ly/~xysmas/180" width="600"></iframe>
 
 No.
 
@@ -819,7 +770,7 @@ py$ggplotly(p)
 ```
 
 <img src="figure/minimal-tile.png" title="plot of chunk tile" alt="plot of chunk tile" style="display: block; margin: auto;" /><iframe height="600" id="igraph" scrolling="no" seamless="seamless"
-				src="https://plot.ly/~xysmas/165" width="600"></iframe>
+				src="https://plot.ly/~xysmas/180" width="600"></iframe>
 
 No.
 
@@ -837,10 +788,86 @@ py$ggplotly(p)
 ```
 
 <img src="figure/minimal-vio.png" title="plot of chunk vio" alt="plot of chunk vio" style="display: block; margin: auto;" /><iframe height="600" id="igraph" scrolling="no" seamless="seamless"
-				src="https://plot.ly/~xysmas/165" width="600"></iframe>
+				src="https://plot.ly/~xysmas/180" width="600"></iframe>
 
 No.
 
+
+## facets
+
+```r
+p <- ggplot(iris, aes(Sepal.Length, Petal.Width, colour = Species, fill = Species))
+p <- p + geom_point()
+p + facet_wrap(~Species)
+
+py$ggplotly(p + facet_wrap(~Species))
+py$ggplotly(p + facet_grid(~Species))
+```
+
+<img src="figure/minimal-facets.png" title="plot of chunk facets" alt="plot of chunk facets" style="display: block; margin: auto;" /><iframe height="600" id="igraph" scrolling="no" seamless="seamless"
+				src="https://plot.ly/~xysmas/182" width="600"></iframe>
+
+no - it doesn't pick up the facet. Perhaps subplot would work? 
+
+<iframe height="600" id="igraph" scrolling="no" seamless="seamless"
+				src="https://plot.ly/~xysmas/182" width="600"></iframe>
+
+
+example taken straight from ggsubplot's manual.
+
+```r
+library(ggsubplot)
+```
+
+```
+## 
+## Attaching package: 'ggsubplot'
+## 
+## The following object is masked from 'package:ggplot2':
+## 
+##     rel
+```
+
+```r
+library(maps)
+data(casualties)
+data(mapping)
+```
+
+```
+## Warning: data set 'mapping' not found
+```
+
+```r
+
+
+p <- ggplot(casualties)
+p <- p + map_afghanistan
+p <- p + geom_subplot2d(aes(lon, lat, subplot = geom_bar(aes(victim, ..count.., 
+    fill = victim))), bins = c(15, 12), ref = NULL, width = rel(0.8))
+p <- p + coord_map()
+p
+```
+
+```
+## Using binwidth 0.905
+## Using binwidth 0.754
+```
+
+```r
+
+py$ggplotly(p)
+```
+
+```
+## Error: Discrete value supplied to continuous scale
+```
+
+<img src="figure/minimal-subplot.png" title="plot of chunk subplot" alt="plot of chunk subplot" style="display: block; margin: auto;" /><iframe height="600" id="igraph" scrolling="no" seamless="seamless"
+				src="https://plot.ly/~xysmas/182" width="600"></iframe>
+
+
+no.
 
 
 
