@@ -7,7 +7,7 @@ opts_chunk$set(fig.path='figure/minimal-', fig.align='center', fig.show='hold', 
 
 
 # Plotly 
-[Plotly](http://www.plot.ly) is a cool, open-source project  ( [github](https://github.com/plotly) ) to help people get interactive plots online easily through a number of various programming languages. It's essentially brand new and I'm going to document how well it works with the popular ggplot2 package in R. This document will be updated as support for more geoms is added.
+[Plotly](http://www.plot.ly) is a cool, open-source project  ( [github](https://github.com/plotly) ) to help people get interactive plots online easily through a number of various programming languages. It's essentially brand new and I'm going to document how well it works with the popular ggplot2 package in R. This post will be updated as support for more geoms is added.
 
 # Plotly and geoms
 I'm going to test out different ggplot geoms to check for compatibility.  Most examples will be taken straight from [ggplot's docs website](http://docs.ggplot2.org/current/). The master list of geoms is at the botttom of this post. Some of the plots have minor errors.
@@ -429,6 +429,99 @@ py$ggplotly(p)
 ```
 No.
 
+
+## facets
+```{r facets}
+p <- ggplot(iris, aes(Sepal.Length, Petal.Width, colour=Species, fill=Species))
+p <- p + geom_point()
+p + facet_wrap(~ Species)
+ 
+py$ggplotly(p + facet_wrap(~Species))
+py$ggplotly(p + facet_grid(~Species))
+```
+no - it doesn't pick up the facet. Perhaps subplot would work? 
+
+```{r subplotDNI, echo=FALSE}
+library(ggplot2)
+library(maps)
+library(plyr)
+
+# getbox by Heike Hoffman, 
+# https://github.com/ggobi/paper-climate/blob/master/code/maps.r
+getbox <- function (map, xlim, ylim) {
+  # identify all regions involved
+  small <- subset(map, (long > xlim[1]) & (long < xlim[2]) & (lat > ylim[1]) & (lat < ylim[2]))
+  regions <- unique(small$region)
+  small <- subset(map, region %in% regions)  
+
+  # now shrink all nodes back to the bounding box
+  small$long <- pmax(small$long, xlim[1])
+  small$long <- pmin(small$long, xlim[2])
+  small$lat <- pmax(small$lat, ylim[1])
+  small$lat <- pmin(small$lat, ylim[2])
+
+  # Remove slivvers
+  small <- ddply(small, "group", function(df) {
+    if (diff(range(df$long)) < 1e-6) return(NULL)
+    if (diff(range(df$lat)) < 1e-6) return(NULL)
+    df
+  })
+
+  small
+}
+
+
+## map layer
+## adapted from map_nasa:
+# https://github.com/ggobi/paper-climate/blob/master/code/maps.r
+
+# assembling data
+world <- map_data("world")
+states <- map_data("state")
+states$group <- max(world$group) + states$group
+both <- rbind(world, states)
+americas <- getbox(both, xlim = c(-115, -55), ylim = c(-21.1, 36.6))
+
+# building americas layer
+map_americas <- list(
+  geom_polygon(aes(long, lat, group = group), data = americas, fill = "grey70", 
+               colour = "grey60", inherit.aes = FALSE, show_guide = FALSE),
+  scale_x_continuous("", breaks = NULL, expand = c(0.02, 0)),
+  scale_y_continuous("", breaks = NULL, expand = c(0.02, 0)))
+
+
+# building afghanistan layer
+afghanistan <- getbox(world, c(60,75), c(28, 39))
+map_afghanistan <- list(
+  geom_polygon(aes(long, lat, group = group), data = afghanistan, 
+               fill = "grey80", colour = "white", inherit.aes = FALSE, 
+               show_guide = FALSE),
+  scale_x_continuous("", breaks = NULL, expand = c(0.02, 0)),
+  scale_y_continuous("", breaks = NULL, expand = c(0.02, 0)))
+
+```
+
+example taken straight from ggsubplot's manual.
+```{r subplot}
+library(ggsubplot)
+library(maps)
+data(casualties)
+data(mapping)
+
+
+p <- ggplot(casualties)
+p <- p + map_afghanistan
+p <- p + geom_subplot2d(aes(lon, lat,
+        subplot = geom_bar(aes(victim, ..count.., fill = victim))),
+        bins = c(15,12), ref = NULL, width = rel(0.8))
+p <- p + coord_map()
+p
+
+py$ggplotly(p)
+
+```
+
+no.
 
 
 
