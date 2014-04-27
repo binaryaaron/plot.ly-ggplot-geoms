@@ -1,8 +1,17 @@
+---
+output:
+  html_document:
+    fig_caption: yes
+    fig_height: 2.5
+    fig_width: 4
+    highlight: zenburn
+    toc: yes
+---
 
 ```{r setup, include=FALSE, cache=FALSE}
 library(knitr)
 # set global chunk options
-opts_chunk$set(fig.path='figure/minimal-', fig.align='center', fig.show='hold', fig.height=2.5, fig.width=4, figerror=TRUE, plotly=TRUE)
+opts_chunk$set(fig.path='figure/minimal-', fig.align='center', fig.show='hold', fig.height=2.5, fig.width=4, figerror=TRUE, plotly=TRUE, error=TRUE)
 ```
 
 
@@ -47,7 +56,7 @@ p.iris.hline
 p.iris.vline
 ```
 
-```{r}
+```{r figerror=TRUE}
 py$ggplotly(p.iris.abline)
 # odd little error
 py$ggplotly(p.iris.hline)
