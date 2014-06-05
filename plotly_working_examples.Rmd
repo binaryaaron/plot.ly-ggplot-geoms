@@ -42,6 +42,35 @@ py <- plotly(username= 'xysmas', key=plotly.key)
 
 # On With the Plots
 
+<<<<<<< HEAD
+=======
+## geom_abline, hline, vline
+
+```{r lines}
+coefs <- coef(lm(Sepal.Length ~ Petal.Width, data = iris))
+p.iris <- ggplot(iris, aes(Petal.Width, Sepal.Length, color = Species))
+p.iris <- p.iris + geom_point()
+p.iris.hline <- p.iris + geom_hline(yintercept=7)
+p.iris.abline <- p.iris + geom_abline(intercept=coefs[1], slope=coefs[2], colour="red", size=2)
+p.iris.vline <- p.iris + geom_vline(xintercept=2)
+p.iris.abline
+p.iris.hline
+p.iris.vline
+```
+
+```{r figerror=TRUE}
+py$ggplotly(p.iris.abline)
+# odd little error
+py$ggplotly(p.iris.hline)
+# odd little error
+py$ggplotly(p.iris.vline)
+```
+geom_abline doesn't work. 
+
+
+
+
+>>>>>>> FETCH_HEAD
 ##  geom_jitter
 ```{r jitter}
 p <- ggplot(iris, aes(Petal.Width, Sepal.Length, color = Species))
@@ -66,6 +95,20 @@ py$ggplotly(p)
 yes, funny that abline and the other line geoms do not work.
 
 
+<<<<<<< HEAD
+=======
+## geom_path
+
+```{r paths}
+#  Use the arrow parameter to add an arrow to the line
+# See ?grid::arrow for more details
+library(grid)
+c <- ggplot(economics, aes(x = date, y = pop))
+# Arrow defaults to "last"
+c + geom_path(arrow = arrow())
+py$ggplotly(c + geom_path(arrow = arrow()))
+```
+>>>>>>> FETCH_HEAD
 
 ## geom_point
 Clearly this works.
@@ -103,6 +146,22 @@ rm(p)
 ```
 
 
+<<<<<<< HEAD
+=======
+## geom_ribbon
+```{r ribbon}
+msamp <- movies[sample(nrow(movies), 1000), ]
+m <- ggplot(msamp, aes(y=log(votes), x=year))
+m <- m + geom_point()
+m <- m + stat_summary(geom="ribbon", fun.ymin="min", fun.ymax="max")
+m
+py$ggplotly(m)
+
+```
+
+Points work, stat summary doesn't. 
+
+>>>>>>> FETCH_HEAD
 
 ## geom_segment
 example from ggplot docs

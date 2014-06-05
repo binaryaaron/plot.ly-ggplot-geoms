@@ -51,6 +51,60 @@ py <- plotly(username = "xysmas", key = plotly.key)
 
 # On With the Plots
 
+<<<<<<< HEAD
+=======
+## geom_abline, hline, vline
+
+
+```r
+coefs <- coef(lm(Sepal.Length ~ Petal.Width, data = iris))
+p.iris <- ggplot(iris, aes(Petal.Width, Sepal.Length, color = Species))
+p.iris <- p.iris + geom_point()
+p.iris.hline <- p.iris + geom_hline(yintercept = 7)
+p.iris.abline <- p.iris + geom_abline(intercept = coefs[1], slope = coefs[2], 
+    colour = "red", size = 2)
+p.iris.vline <- p.iris + geom_vline(xintercept = 2)
+p.iris.abline
+p.iris.hline
+p.iris.vline
+```
+
+<img src="figure/minimal-lines1.png" title="plot of chunk lines" alt="plot of chunk lines" style="display: block; margin: auto;" /><img src="figure/minimal-lines2.png" title="plot of chunk lines" alt="plot of chunk lines" style="display: block; margin: auto;" /><img src="figure/minimal-lines3.png" title="plot of chunk lines" alt="plot of chunk lines" style="display: block; margin: auto;" />
+
+
+
+```r
+py$ggplotly(p.iris.abline)
+```
+
+```
+## Error: conversion not implemented for geom_abline (basic geom_abline)
+```
+
+```r
+# odd little error
+py$ggplotly(p.iris.hline)
+```
+
+```
+## Error: object 'Petal.Width' not found
+```
+
+```r
+# odd little error
+py$ggplotly(p.iris.vline)
+```
+
+```
+## Error: object 'Petal.Width' not found
+```
+
+geom_abline doesn't work. 
+
+
+
+
+>>>>>>> FETCH_HEAD
 ##  geom_jitter
 
 ```r
@@ -69,7 +123,11 @@ py$ggplotly(p + geom_point(position = position_jitter()))
 ```
 
 <img src="figure/minimal-jitter.png" title="plot of chunk jitter" alt="plot of chunk jitter" style="display: block; margin: auto;" /><iframe height="600" id="igraph" scrolling="no" seamless="seamless"
+<<<<<<< HEAD
 				src="https://plot.ly/~xysmas/192" width="600"></iframe>
+=======
+				src="https://plot.ly/~xysmas/183" width="600"></iframe>
+>>>>>>> FETCH_HEAD
 
 geom_jitter fails, but position jitter passed to geompoint seems to work fine. 
 
@@ -82,7 +140,11 @@ p
 ```
 
 <img src="figure/minimal-line.png" title="plot of chunk line" alt="plot of chunk line" style="display: block; margin: auto;" /><iframe height="600" id="igraph" scrolling="no" seamless="seamless"
+<<<<<<< HEAD
 				src="https://plot.ly/~xysmas/192" width="600"></iframe>
+=======
+				src="https://plot.ly/~xysmas/183" width="600"></iframe>
+>>>>>>> FETCH_HEAD
 
 
 
@@ -91,11 +153,34 @@ py$ggplotly(p)
 ```
 
 <iframe height="600" id="igraph" scrolling="no" seamless="seamless"
+<<<<<<< HEAD
 				src="https://plot.ly/~xysmas/193" width="600"></iframe>
+=======
+				src="https://plot.ly/~xysmas/184" width="600"></iframe>
+>>>>>>> FETCH_HEAD
 
 yes, funny that abline and the other line geoms do not work.
 
 
+<<<<<<< HEAD
+=======
+## geom_path
+
+
+```r
+# Use the arrow parameter to add an arrow to the line See ?grid::arrow for
+# more details
+library(grid)
+c <- ggplot(economics, aes(x = date, y = pop))
+# Arrow defaults to 'last'
+c + geom_path(arrow = arrow())
+py$ggplotly(c + geom_path(arrow = arrow()))
+```
+
+<img src="figure/minimal-paths.png" title="plot of chunk paths" alt="plot of chunk paths" style="display: block; margin: auto;" /><iframe height="600" id="igraph" scrolling="no" seamless="seamless"
+				src="https://plot.ly/~xysmas/185" width="600"></iframe>
+
+>>>>>>> FETCH_HEAD
 
 ## geom_point
 Clearly this works.
@@ -127,9 +212,36 @@ rm(p)
 ```
 
 <img src="figure/minimal-poly.png" title="plot of chunk poly" alt="plot of chunk poly" style="display: block; margin: auto;" /><iframe height="600" id="igraph" scrolling="no" seamless="seamless"
+<<<<<<< HEAD
 				src="https://plot.ly/~xysmas/194" width="600"></iframe>
 
 
+=======
+				src="https://plot.ly/~xysmas/186" width="600"></iframe>
+
+
+
+## geom_ribbon
+
+```r
+msamp <- movies[sample(nrow(movies), 1000), ]
+m <- ggplot(msamp, aes(y = log(votes), x = year))
+m <- m + geom_point()
+m <- m + stat_summary(geom = "ribbon", fun.ymin = "min", fun.ymax = "max")
+m
+py$ggplotly(m)
+```
+
+```
+## Error: TODO
+```
+
+<img src="figure/minimal-ribbon.png" title="plot of chunk ribbon" alt="plot of chunk ribbon" style="display: block; margin: auto;" /><iframe height="600" id="igraph" scrolling="no" seamless="seamless"
+				src="https://plot.ly/~xysmas/186" width="600"></iframe>
+
+
+Points work, stat summary doesn't. 
+>>>>>>> FETCH_HEAD
 
 
 ## geom_segment
@@ -145,7 +257,11 @@ py$ggplotly(p)
 ```
 
 <img src="figure/minimal-seg.png" title="plot of chunk seg" alt="plot of chunk seg" style="display: block; margin: auto;" /><iframe height="600" id="igraph" scrolling="no" seamless="seamless"
+<<<<<<< HEAD
 				src="https://plot.ly/~xysmas/195" width="600"></iframe>
+=======
+				src="https://plot.ly/~xysmas/187" width="600"></iframe>
+>>>>>>> FETCH_HEAD
 
 
 
